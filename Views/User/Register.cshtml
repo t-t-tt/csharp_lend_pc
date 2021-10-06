@@ -1,0 +1,40 @@
+@model csharp_lend_pc.Models.RegisterViewModel;
+@{ 
+    ViewData["Title"] = "ログイン"; 
+}
+
+<form method="post" class="form-signin" >
+    <h1 class="h3 mb-3 font-weight-normal">サインアップ画面</h1>
+    <label class="d-block form-label mt-3 text-left">ユーザー名</label>
+    <input
+        asp-for="@Model.UserName"
+        class="form-control"
+        type="text"
+        placeholder="ユーザー名"
+        required
+        autofocus
+    />
+    <label class="d-block form-label mt-3 text-left">パスワード</label>
+    <input
+        asp-for="@Model.Password"
+        class="form-control"
+        type="password"
+        placeholder="パスワード"
+        required        
+    />
+
+    <label class="d-block form-label mt-3 text-left">パスワード(確認)</label>
+    <input
+        asp-for="@Model.ConfirmPassword"
+        class="form-control"
+        type="password"
+        placeholder="パスワード(確認)"
+        required        
+    />
+    
+    <button class="mt-3 btn btn-lg btn-primary btn-block" asp-controller="User"
+            asp-action="Register" type="submit">
+        登録
+    </button>
+    <p class="mt-5 mb-3 text-muted">&copy; 2021 - csharp_lend_pc</p>
+</form>

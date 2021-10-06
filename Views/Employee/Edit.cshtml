@@ -1,0 +1,140 @@
+﻿@model csharp_lend_pc.Models.EmployeeEntity;
+
+<h1>@ViewData["Title"]</h1>
+
+<form method="post" class="col-8 px-0 mt-5">
+    <div class="form-row px-1">
+        <label class="form-label mt-3">社員番号</label>
+        @if (@ViewData["pathId"].ToString() == "edit")
+        {
+                <input asp-for="@Model.Id" class="form-control" type="text" value="@Model.Id" readonly />
+        }
+        else
+        {
+                <input asp-for="@Model.Id" class="form-control" type="text" value="@Model.Id" />
+        }
+        <span asp-validation-for="@Model.Id" class="text-danger"></span>
+    </div>
+
+    <label class="form-label mt-3">氏名</label>
+    <div class="form-row">
+        <div class="col">
+            <input asp-for="@Model.LastName" class="form-control" type="text" value="@Model.LastName" placeholder="姓">
+            <span asp-validation-for="@Model.LastName" class="text-danger"></span>
+        </div>
+        <div class="col">
+            <input asp-for="@Model.FirstName" class="form-control" type="text" value="@Model.FirstName" placeholder="名">
+            <span asp-validation-for="@Model.FirstName" class="text-danger"></span>
+        </div>
+    </div>
+
+    <label class="form-label mt-3">フリガナ</label>
+    <div class="form-row">
+        <div class="col">
+            <input asp-for="@Model.LastNameKana" class="form-control" type="text" value="@Model.LastNameKana"
+                placeholder="セイ">
+            <span asp-validation-for="@Model.LastNameKana" class="text-danger"></span>
+        </div>
+        <div class="col">
+            <input asp-for="@Model.FirstNameKana" class="form-control" type="text" value="@Model.FirstNameKana"
+                placeholder="メイ">
+            <span asp-validation-for="@Model.FirstNameKana" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-row mt-3">
+        <div class="col">
+            <label class="form-label">年齢</label>
+            <input asp-for="@Model.Age" class="form-control form-select" value="@Model.Age" type="number" />
+            <span asp-validation-for="@Model.Age" class="text-danger"></span>
+        </div>
+        <div class="col">
+            <label class="form-label">性別</label>
+            <select asp-for="@Model.Gender" class="form-control form-select" value="@Model.Gender">
+                <option value="男">男</option>
+                <option value="女">女</option>
+            </select>
+            <span asp-validation-for="@Model.Gender" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-row mt-3">
+        <div class="col">
+            <label class="form-label">所属部署</label>
+            <select asp-for="@Model.Department" class="form-control form-select" value="@Model.Department">
+                <option value="開発1課">開発1課</option>
+                <option value="開発2課">開発2課</option>
+                <option value="営業1課">営業1課</option>
+                <option value="情報システム部">情報システム部</option>
+            </select>
+            <span asp-validation-for="@Model.Department" class="text-danger"></span>
+        </div>
+        <div class="col">
+            <label class="form-label">役職</label>
+            <select asp-for="@Model.Position" class="form-control form-select" value="@Model.Position">
+                <option value="一般">一般</option>
+                <option value="課長">課長</option>
+                <option value="部長">部長</option>
+            </select>
+            <span asp-validation-for="@Model.Position" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-row mt-3">
+        <label class="form-label">電話番号</label>
+        <input asp-for="@Model.TelNumber" type="tel" class="form-control" value="@Model.TelNumber"
+            placeholder="09012345678">
+        <span asp-validation-for="@Model.TelNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-row mt-3">
+        <label class="form-label">メールアドレス</label>
+        <input asp-for="@Model.Email" type="email" class="form-control" value="@Model.Email"
+            placeholder="name@example.com">
+        <span asp-validation-for="@Model.Email" class="text-danger"></span>        
+    </div>
+
+    <div class="form-row mt-3">
+        <div class="col">
+            <label class="form-label">PCアカウント権限</label>
+            <select asp-for="@Model.Privilege" class="form-control form-select" value="@Model.Privilege">
+                <option value="利用者">利用者</option>
+                <option value="管理者">管理者</option>
+            </select>
+            <span asp-validation-for="@Model.Privilege" class="text-danger"></span>        
+        </div>
+
+        @{
+            var RetiredAt = Model.RetiredAt != null ? Model.RetiredAt.Value.ToString("yyyy-MM-dd") : "";
+        }
+        <div class="col">
+            <label class="form-label">退職日</label>
+            <input asp-for="@Model.RetiredAt" class="form-control form-select" value="@RetiredAt" type="date" />
+            <span asp-validation-for="@Model.RetiredAt" class="text-danger"></span>        
+        </div>
+    </div>
+
+    <input asp-for="@Model.CreatedAt" class="form-control form-select" value="@Model.CreatedAt" type="hidden" />
+    <input asp-for="@Model.UpdatedAt" class="form-control form-select" value="@Model.UpdatedAt" type="hidden" />
+    <input asp-for="@Model.IsDeleted" class="form-control form-select" value="@Model.IsDeleted" type="hidden" />
+
+    <hr class="my-4">
+    <div class="d-flex justify-content-end">
+        @if (@ViewData["pathId"].ToString() == "edit")
+        {
+                <button class="col-5 btn btn-lg btn-outline-primary" type="submit" value="Update" asp-controller="Employee"
+            asp-action="update" asp-route-id="@Model.Id" class="btn btn-default">保存</button>
+        }
+        else
+        {
+                <button class="col-5 btn btn-lg btn-outline-primary" type="submit" value="Create" asp-controller="Employee"
+            asp-action="create" class="btn btn-default">追加</button>
+        }
+        <a href='javascript:history.go(-1)' class="ml-3 col-5 btn btn-lg btn-outline-primary"
+            class="btn btn-default">戻る</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

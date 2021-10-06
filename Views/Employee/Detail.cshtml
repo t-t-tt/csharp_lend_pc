@@ -1,0 +1,134 @@
+﻿@model csharp_lend_pc.Models.EmployeeEntity;
+@{
+    ViewData["Title"] = "社員詳細情報";
+}
+<div class="col-10 d-flex justify-content-between align-items-center">
+    <h1>社員詳細情報</h1>
+    <div class="d-flex">
+        <a class="button_edit mr-3" href="/employee/edit/@Model.Id">編集</a>
+        <a asp-action="Delete" asp-controller="employee" class="button_delete" asp-route-id="@Model.Id">削除</a>
+    </div>
+</div>
+
+
+<div class="mt-5">
+    <div class="row">
+        <div class="col-sm-3">
+            <h6 class="mb-0">社員番号</h6>
+        </div>
+        <div class="col-sm-9 text-secondary">
+            @Html.DisplayFor(modelEmployee => modelEmployee.Id)
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-sm-3">
+            <h6 class="mb-0">氏名</h6>
+        </div>
+        <div class="col-sm-9 text-secondary">
+            @Html.DisplayFor(modelEmployee => modelEmployee.LastName)
+            @Html.DisplayFor(modelEmployee => modelEmployee.FirstName)
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-sm-3">
+            <h6 class="mb-0">フリガナ</h6>
+        </div>
+        <div class="col-sm-9 text-secondary">
+            @Html.DisplayFor(modelEmployee => modelEmployee.LastNameKana)
+            @Html.DisplayFor(modelEmployee => modelEmployee.FirstNameKana)
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-sm-3">
+            <h6 class="mb-0">所属部署</h6>
+        </div>
+        <div class="col-sm-9 text-secondary">
+            @Html.DisplayFor(modelEmployee => modelEmployee.Department)
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-sm-3">
+            <h6 class="mb-0">電話番号</h6>
+        </div>
+        <div class="col-sm-9 text-secondary">
+            @Html.DisplayFor(modelEmployee => modelEmployee.TelNumber)
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-sm-3">
+            <h6 class="mb-0">メールアドレス</h6>
+        </div>
+        <div class="col-sm-9 text-secondary">
+            @Html.DisplayFor(modelEmployee => modelEmployee.Email)
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-sm-3">
+            <h6 class="mb-0">性別</h6>
+        </div>
+        <div class="col-sm-9 text-secondary">
+            @Html.DisplayFor(modelEmployee => modelEmployee.Gender)
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-sm-3">
+            <h6 class="mb-0">役職</h6>
+        </div>
+        <div class="col-sm-9 text-secondary">
+            @Html.DisplayFor(modelEmployee => modelEmployee.Position)
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-sm-3">
+            <h6 class="mb-0">所属部署</h6>
+        </div>
+        <div class="col-sm-9 text-secondary">
+            @Html.DisplayFor(modelEmployee => modelEmployee.Department)
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-sm-3">
+            <h6 class="mb-0">PCアカウント権限</h6>
+        </div>
+        <div class="col-sm-9 text-secondary">
+            @Html.DisplayFor(modelEmployee => modelEmployee.Privilege)
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-sm-3">
+            <h6 class="mb-0">登録日</h6>
+        </div>
+        <div class="col-sm-9 text-secondary">
+            @Html.DisplayFor(modelEmployee => modelEmployee.CreatedAt)
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-sm-3">
+            <h6 class="mb-0">更新日</h6>
+        </div>
+        <div class="col-sm-9 text-secondary">
+            @Html.DisplayFor(modelEmployee => modelEmployee.UpdatedAt)
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-sm-3">
+            <h6 class="mb-0">退職日</h6>
+        </div>
+        <div class="col-sm-9 text-secondary">
+            @Html.DisplayFor(modelEmployee => modelEmployee.RetiredAt)
+        </div>
+    </div>
+    <hr>
+</div>

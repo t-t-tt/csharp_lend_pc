@@ -1,0 +1,94 @@
+﻿@using System.Threading;
+@using System.Security.Claims;
+@{
+    string Title = ViewData["Title"] is string ? ViewData["Title"] as string : "";    
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - csharp_lend_pc</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/import.css" />
+</head>
+
+<body>
+    @if (Title == "ログイン")
+    {
+        @RenderBody();
+    }
+    else
+    {
+        string userName = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name).Value ?? "";    
+        @* string userName = ""; *@
+
+        <header class="navbar navbar-light bg-light p-3">
+        <div class="d-flex col-4 flex-wrap flex-md-nowrap justify-content-between">
+            <a class="navbar-brand" href="/">
+                PC管理台帳システム
+            </a>
+        </div>
+        <div class="col-8 d-flex align-items-center justify-content-md-end mt-3 mt-md-0">
+            <div class="mr-3 mt-1">
+                <span></span>
+            </div>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+    data-toggle="dropdown" aria-expanded="false">
+                    Hello, @userName
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">                    
+                    <li><form method="post"><button class="dropdown-item" asp-controller="User" asp-action="Logout">Logout</button></form></li>                    
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <div class="container-fluid main_wrapper">
+        <div class="row">
+            <nav id="sidebar" class="col-2 d-md-block bg-light py-4 sidebar collapse">
+                <div class="position-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/lend">
+                                <span class="ml-2">貸出管理台帳</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/lend/lend-return">
+                                <span class="ml-2">貸出・返却</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/pc">
+                                <span class="ml-2">機器一覧</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/employee">
+                                <span class="ml-2">社員一覧</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <main class="col-10 px-md-4 py-4">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2021 - csharp_lend_pc
+        </div>
+    </footer>
+    }
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

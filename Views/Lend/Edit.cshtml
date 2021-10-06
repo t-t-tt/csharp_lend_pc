@@ -1,0 +1,229 @@
+﻿@model csharp_lend_pc.Models.LendEntity
+@{
+    ViewData["Title"] = "貸出・返却";
+    var availablePcs = ViewData["availablePcs"] as List<LendManagementViewModel>;
+    var currentUsedPcs = ViewData["currentUsedPcs"] as Dictionary<string, LendManagementViewModel>;
+    var availableEmployees = ViewData["availableEmployees"] as List<EmployeeEntity>;
+}
+@functions {
+
+}
+<div class="col-10 d-flex justify-content-between align-items-center">
+    <h1>貸出・返却</h1>
+</div>
+
+<ul class="nav nav-pills my-3" id="pills-tab" role="tablist">
+    <li class="nav-item col-2 px-0 text-center" role="presentation">
+        <a class="nav-link text-center active" id="pills-lend-tab" data-bs-toggle="pill" href="#" role="tab"
+            aria-controls="pills-lend" aria-selected="true">貸出</a>
+    </li>
+    <li class="nav-item col-2 px-0" role="presentation">
+        <a class="nav-link text-center" id="pills-return-tab" data-bs-toggle="pill" href="#" role="tab"
+            aria-controls="pills-return" aria-selected="false">返却</a>
+    </li>
+    <li class="nav-item col-2 px-0" role="presentation">
+        <a class="nav-link text-center" id="pills-edit-tab" data-bs-toggle="pill" href="#" role="tab"
+            aria-controls="pills-edit" aria-selected="false">編集</a>
+    </li>
+</ul>
+<div class="tab-content px-2" id="pills-tabContent">
+    <div class="tab-pane fade show active" id="pills-lend" role="tabpanel" aria-labelledby="pills-lend-tab">
+        <form method="post" class="col-8 px-0 mt-3">
+            <div class="form-row px-1">
+                <label class="form-label mt-3">資産番号</label>
+                <select asp-for="@Model.PcId" class="form-control form-select">
+                    @foreach (var p in availablePcs)
+                    {
+                        <option value="@p.PcId">@p.PcId</option>
+                    }
+                </select>
+            </div>
+            <div class="form-row px-1">
+                <label class="form-label mt-3">社員</label>
+                <select asp-for="@Model.EmployeeId" class="form-control form-select">
+                    @foreach (var u in availableEmployees)
+                    {
+                        <option value="@u.Id">@($"{u.Id} : {u.LastName} {u.FirstName}")</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-row mt-3">
+                <div class="col">
+                    <label class="form-label">リース開始日</label>
+                    <input asp-for="@Model.LendStartAt" class="form-control form-select" type="date" />
+                </div>
+                <div class="col">
+                    <label class="form-label">リース期限日</label>
+                    <input asp-for="@Model.LendEndAt" class="form-control form-select" type="date" />
+                </div>
+            </div>
+
+            <div class="form-row mt-3 px-1">
+                <label class="form-label">備考</label>
+                <input asp-for="@Model.Remarks" class="form-control form-select" type="text" />
+            </div>
+
+            <input asp-for="@Model.CreatedAt" class="form-control form-select" type="hidden" />
+            <input asp-for="@Model.UpdatedAt" class="form-control form-select" type="hidden" />
+            <input asp-for="@Model.IsDeleted" class="form-control form-select" type="hidden" />
+            <input asp-for="@Model.IsReturned" class="form-control form-select" type="hidden" />
+
+            <hr class="my-4">
+            <div class="d-flex justify-content-end">
+                <button class="col-12 btn btn-lg btn-outline-primary" type="submit" value="Create" asp-controller="Lend"
+                    asp-action="Create" class="btn btn-default">貸出する</button>
+            </div>
+        </form>
+    </div>
+    <div class="tab-pane fade" id="pills-return" role="tabpanel" aria-labelledby="pills-return-tab">
+        <form method="post" class="col-8 px-0 mt-3">
+            <div class="form-row px-1">
+                <label class="form-label mt-3">資産番号</label>
+                <select id="form-return-pc" asp-for="@Model.PcId" class="form-control form-select">
+                    @foreach (var p in currentUsedPcs.Values)
+                    {
+                        <option value="@p.PcId">@p.PcId</option>
+                    }
+                </select>
+            </div>
+            <div class="form-row px-1">
+                <label class="form-label mt-3">社員</label>
+                <select id="form-return-employee" readonly asp-for="@Model.EmployeeId" class="form-control form-select">
+                </select>
+            </div>
+
+            <div class="form-row mt-3">
+                <div class="col">
+                    <label class="form-label">貸出日</label>
+                    <input id="form-return-lend-start" readonly asp-for="@Model.LendStartAt"
+                        class="form-control form-select" type="date" />
+                </div>
+                <div class="col">
+                    <label class="form-label">返却日</label>
+                    <input id="form-return-lend-end" readonly asp-for="@Model.LendEndAt"
+                        class="form-control form-select" type="date" />
+                </div>
+            </div>
+
+            <div class="form-row mt-3 px-1">
+                <label class="form-label">備考</label>
+                <input id="form-return-remarks" readonly asp-for="@Model.Remarks" class="form-control form-select"
+                    type="text" />
+            </div>
+
+            <input id="form-return-lend" asp-for="@Model.Id" class="form-control form-select" type="hidden" />
+            <input id="form-return-created" asp-for="@Model.CreatedAt" class="form-control form-select" type="hidden" />
+            <input id="form-return-updated" asp-for="@Model.UpdatedAt" class="form-control form-select" type="hidden" />
+            <input asp-for="@Model.IsDeleted" class="form-control form-select" type="hidden" />
+            <input asp-for="@Model.IsReturned" class="form-control form-select" type="hidden" />
+
+            <hr class="my-4">
+            <div class="d-flex justify-content-end">
+                <button class="col-12 btn btn-lg btn-outline-primary" type="submit" value="Return" asp-controller="Lend"
+                    asp-action="Return" class="btn btn-default">返却する</button>
+            </div>
+        </form>
+    </div>
+    <div class="tab-pane fade" id="pills-edit" role="tabpanel" aria-labelledby="pills-edit-tab">
+        <form method="post" class="col-8 px-0 mt-3">
+            <div class="form-row px-1">
+                <label class="form-label mt-3">資産番号</label>
+                <select id="form-edit-pc" asp-for="@Model.PcId" class="form-control form-select">
+                    @foreach (var p in currentUsedPcs.Values)
+                    {
+                        <option value="@p.PcId">@p.PcId</option>
+                    }
+                </select>
+            </div>
+            <div class="form-row px-1">
+                <label class="form-label mt-3">社員</label>
+                <select id="form-edit-employee" asp-for="@Model.EmployeeId" class="form-control form-select">
+                    @foreach (var u in availableEmployees)
+                    {
+                        <option value="@u.Id">@($"{u.Id} : {u.LastName} {u.FirstName}")</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-row mt-3">
+                <div class="col">
+                    <label class="form-label">貸出日</label>
+                    <input id="form-edit-lend-start" asp-for="@Model.LendStartAt" class="form-control form-select"
+                        type="date" />
+                </div>
+                <div class="col">
+                    <label class="form-label">返却日</label>
+                    <input id="form-edit-lend-end" asp-for="@Model.LendEndAt" class="form-control form-select"
+                        type="date" />
+                </div>
+            </div>
+
+            <div class="form-row mt-3 px-1">
+                <label class="form-label">備考</label>
+                <input id="form-edit-remarks" asp-for="@Model.Remarks" class="form-control form-select" type="text" />
+            </div>
+
+            <input id="form-edit-lend" asp-for="@Model.Id" class="form-control form-select" type="hidden" />
+            <input id="form-edit-created" asp-for="@Model.CreatedAt" class="form-control form-select" type="hidden" />
+            <input id="form-edit-updated" asp-for="@Model.UpdatedAt" class="form-control form-select" type="hidden" />
+            <input asp-for="@Model.IsDeleted" class="form-control form-select" type="hidden" />
+            <input asp-for="@Model.IsReturned" class="form-control form-select" type="hidden" />
+
+            <hr class="my-4">
+            <div class="d-flex justify-content-end">
+                <button class="col-12 btn btn-lg btn-outline-primary" type="submit" value="Update" asp-controller="Lend"
+                    asp-action="Update" class="btn btn-default">保存する</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section scripts {
+<script type="text/javascript">
+    const ps = @Html.Raw(Json.Serialize(currentUsedPcs));
+
+    //返却用
+    const returnPcIdInput = document.getElementById("form-return-pc");
+    const returnLendIdInput = document.getElementById("form-return-lend");
+    const returnEmployeeIdInput = document.getElementById("form-return-employee");
+    const returnRemarksInput = document.getElementById("form-return-remarks");
+    const returnLendStartInput = document.getElementById("form-return-lend-start");
+    const returnLendEndInput = document.getElementById("form-return-lend-end");
+    const returnCreatedInput = document.getElementById("form-return-created");
+    const returnUpdatedInput = document.getElementById("form-return-updated");
+    returnPcIdInput.addEventListener("change", e => {
+        const p = ps[e.target.value];
+        returnLendIdInput.value = p["lendId"];
+        returnEmployeeIdInput.innerHTML = `<option value=${p["employeeId"]}> ${p["employeeId"]}: ${p["lastName"]} ${p["firstName"]}</option>`;
+        returnRemarksInput.value = p["remarks"];
+        returnLendStartInput.value = p["lendStartAt"].slice(0, 10);
+        returnLendEndInput.value = p["lendEndAt"].slice(0, 10);
+        returnCreatedInput.value = p["createdAt"].slice(0, 10);
+        returnUpdatedInput.value = p["updatedAt"].slice(0, 10);
+    })
+    returnPcIdInput.dispatchEvent(new Event("change"));
+
+    //編集用    
+    const editPcIdInput = document.getElementById("form-edit-pc");
+    const editLendIdInput = document.getElementById("form-edit-lend");
+    const editEmployeeIdInput = document.getElementById("form-edit-employee");
+    const editRemarksInput = document.getElementById("form-edit-remarks");
+    const editLendStartInput = document.getElementById("form-edit-lend-start");
+    const editLendEndInput = document.getElementById("form-edit-lend-end");
+    const editCreatedInput = document.getElementById("form-edit-created");
+    const editUpdatedInput = document.getElementById("form-edit-updated");
+    editPcIdInput.addEventListener("change", e => {
+        const p = ps[e.target.value];
+        editLendIdInput.value = p["lendId"];
+        editEmployeeIdInput.value = p["employeeId"];
+        editRemarksInput.value = p["remarks"] === null ? null : p["remarks"];
+        editLendStartInput.value = p["lendStartAt"].slice(0, 10);
+        editLendEndInput.value = p["lendEndAt"].slice(0, 10);
+        editCreatedInput.value = p["createdAt"].slice(0, 10);
+        editUpdatedInput.value = p["updatedAt"].slice(0, 10);
+    })
+    editPcIdInput.dispatchEvent(new Event("change"));
+
+</script>
+}

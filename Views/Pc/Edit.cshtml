@@ -1,0 +1,155 @@
+﻿@model csharp_lend_pc.Models.PcEntity;
+
+<h1>@ViewData["Title"]</h1>
+
+<form method="post" class="col-8 px-0 mt-5">
+    <div class="form-row px-1">
+        <label class="form-label mt-3">資産番号</label>
+        @if (@ViewData["pathId"].ToString() == "edit")
+        {
+            <input asp-for="@Model.Id" class="form-control" type="text" value="@Model.Id" readonly />
+        }
+        else
+        {
+            <input asp-for="@Model.Id" class="form-control" type="text" value="@Model.Id" />
+        }
+            <span asp-validation-for="@Model.Id" class="text-danger"></span>        
+    </div>
+
+    <div class="form-row mt-3">
+        <div class="col">
+            <label class="form-label">メーカー</label>
+            <select asp-for="@Model.Maker" class="form-control form-select" value="@Model.Maker">
+                <option value="Dell">Dell</option>
+                <option value="HP">HP</option>
+                <option value="Mouse">Mouse</option>
+            </select>
+            <span asp-validation-for="@Model.Maker" class="text-danger"></span>        
+
+        </div>
+        <div class="col">
+            <label class="form-label">OS</label>
+            <select asp-for="@Model.Os" class="form-control form-select" value="@Model.Os">
+                <option value="Windows10">Windows10</option>
+                <option value="macOS">macOS</option>
+                <option value="Linux">Linux</option>
+            </select>
+            <span asp-validation-for="@Model.Os" class="text-danger"></span>        
+        </div>
+    </div>
+
+    <div class="form-row mt-3">
+        <div class="col">
+            <label class="form-label">メモリー</label>
+            <select asp-for="@Model.Memory" class="form-control form-select" value="@Model.Memory">
+                <option value="8GB">8GB</option>
+                <option value="16GB">16GB</option>
+                <option value="32GB">32GB</option>
+            </select>
+            <span asp-validation-for="@Model.Memory" class="text-danger"></span>        
+        </div>
+        <div class="col">
+            <label class="form-label">容量</label>
+            <select asp-for="@Model.Capacity" class="form-control form-select" value="@Model.Capacity">
+                <option value="500GB">500GB</option>
+                <option value="1TB">1TB</option>
+            </select>
+            <span asp-validation-for="@Model.Capacity" class="text-danger"></span>        
+        </div>
+    </div>
+
+    <div class="form-row mt-3">
+        <div class="col">
+            <label class="form-label d-block">グラフィックボードの有無</label>
+            <div class="form-check form-check-inline">
+                <input asp-for="@Model.HasGraphicBoard" class="form-check-input" type="radio" id="hasGraphicBoardRadio1"
+                    value="@true">
+                <label class="form-check-label" for="hasGraphicBoardRadio1">有</label>
+            </div>
+
+            <div class="form-check form-check-inline">
+                <input asp-for="@Model.HasGraphicBoard" class="form-check-input" type="radio" id="hasGraphicBoardRadio2"
+                    value="@false">
+
+                <label class="form-check-label" asp-for="@Model.HasGraphicBoard" for="hasGraphicBoardRadio2">無</label>
+            </div>
+            <span asp-validation-for="@Model.HasGraphicBoard" class="text-danger"></span>        
+        </div>
+        <div class="col">
+            <label class="form-label d-block">故障の有無</label>
+            <div class="form-check form-check-inline">
+                <input asp-for="@Model.IsBroken" class="form-check-input" type="radio" id="isBrokenRadio1" value="@true"
+                    >
+                <label class="form-check-label" asp-for="@Model.IsBroken">有</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input asp-for="@Model.IsBroken" class="form-check-input" type="radio" id="isBrokenRadio2" value="@false">
+                <label class="form-check-label" asp-for="@Model.IsBroken">無</label>
+            </div>
+            <span asp-validation-for="@Model.IsBroken" class="text-danger"></span>        
+        </div>        
+    </div>
+
+    <div class="form-row mt-3">
+        <div class="col">
+            <label class="form-label">保管場所</label>
+            <input asp-for="@Model.StorageLocation" class="form-control form-select" value="@Model.StorageLocation"
+                type="text" />
+            <span asp-validation-for="@Model.StorageLocation" class="text-danger"></span>        
+        </div>
+        @{
+            var InventoryAt = Model.InventoryAt != null ? Model.InventoryAt.Value.ToString("yyyy-MM-dd") : "";
+        }
+        <div class="col">
+            <label class="form-label">棚卸日</label>
+            <input asp-for="@Model.InventoryAt" class="form-control form-select" value="@InventoryAt" type="date" />
+        </div>
+    </div>
+
+    <div class="form-row mt-3">
+        @{
+            var LeaseStartAt = Model.LeaseStartAt.ToString("yyyy-MM-dd");
+        }
+        <div class="col">
+            <label class="form-label">リース開始日</label>
+            <input asp-for="@Model.LeaseStartAt" class="form-control form-select" value="@LeaseStartAt" type="date" />
+        </div>
+
+        @{
+            var LeaseEndAt = Model.LeaseEndAt.ToString("yyyy-MM-dd");
+        }
+        <div class="col">
+            <label class="form-label">リース期限日</label>
+            <input asp-for="@Model.LeaseEndAt" class="form-control form-select" value="@LeaseEndAt" type="date" />
+        </div>
+    </div>
+
+    <div class="form-row mt-3 px-1">
+        <label class="form-label">備考</label>
+        <input asp-for="@Model.Remarks" class="form-control form-select" value="@Model.Remarks" type="text" />
+    </div>
+
+    <input asp-for="@Model.CreatedAt" class="form-control form-select" value="@Model.CreatedAt" type="hidden" />
+    <input asp-for="@Model.UpdatedAt" class="form-control form-select" value="@Model.UpdatedAt" type="hidden" />
+    <input asp-for="@Model.IsDeleted" class="form-control form-select" value="@Model.IsDeleted" type="hidden" />
+
+    <hr class="my-4">
+    <div class="d-flex justify-content-end">
+        @if (@ViewData["pathId"].ToString() == "edit")
+        {
+            <button class="col-5 btn btn-lg btn-outline-primary" type="submit" value="Update" asp-controller="Pc"
+            asp-action="update" asp-route-id="@Model.Id" class="btn btn-default">保存</button>
+        }
+        else
+        {
+            <button class="col-5 btn btn-lg btn-outline-primary" type="submit" value="Create" asp-controller="Pc"
+            asp-action="create" class="btn btn-default">追加</button>
+        }
+        <a href='javascript:history.go(-1)' class="ml-3 col-5 btn btn-lg btn-outline-primary"
+            class="btn btn-default">戻る</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
